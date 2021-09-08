@@ -4,28 +4,23 @@ const STORAGE_KEY = 'itss-final';
 
 function useStorage() {
   const [items, setItems] = useState([]);
-　
-  useEffect(() => {
-    const data = localStorage.getItem(STORAGE_KEY);
-
-    if (!data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+  const [curId, setCurId] = useState(0);
+  const nextItem = () => {
+    if (curId == 3) {
+      setCurId(0)
     } else {
-      setItems(JSON.parse(data));
+      setCurId(curId + 1)
     }
-  }, []);
-
-  const putItems = items => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-    setItems  (items);
+  };
+  const prevItem = () => {
+    if (curId == 0) {
+      setCurId(3)
+    } else {
+      setCurId(curId - 1)
+    }
   };
 
-  const clearItems = () => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
-    setItems([]);
-  };
-
-  return [items, putItems, clearItems];
+  return [curId, nextItem, prevItem];
 }
 
 export default useStorage;
